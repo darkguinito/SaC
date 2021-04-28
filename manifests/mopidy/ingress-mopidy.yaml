@@ -1,0 +1,21 @@
+#apiVersion: networking.k8s.io/v1beta1
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: mopidy
+  namespace: music
+  annotations:
+    #    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/app-root: /muse/
+spec:
+  rules:
+  - host: mopidy.local
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: mopidy
+          servicePort: http
+  tls:
+  - hosts:
+    - mopidy.local

@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: snapserver
+  name: snapserver
+  namespace: music
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: snapserver
+  template:
+    metadata:
+      labels:
+        app: snapserver
+    spec:
+      containers:
+        - env: []
+          image: darkinito/snapserver:latest
+          name: snapserver
+          ports:
+            - containerPort: 1705
+            - containerPort: 1704
+            - containerPort: 1780
+            - containerPort: 4953
+              #          readinessProbe:
+              #            tcpSocket:
+              #              port: 4953 
+              #            initialDelaySeconds: 5
+              #            periodSeconds: 10
+              #          livenessProbe:
+              #            tcpSocket:
+              #              port: 4953
+              #            initialDelaySeconds: 5
+              #            periodSeconds: 10
+          resources:
+            limits:
+              cpu: 200m
+              memory: 200Mi
+            requests:
+              cpu: 100m
+              memory: 100Mi

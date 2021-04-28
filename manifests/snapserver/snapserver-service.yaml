@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: snap
+  name: snap
+  namespace: music
+spec:
+  type: LoadBalancer
+# externalTrafficPolicy: Local
+  loadBalancerIP: 192.168.0.113
+  externalTrafficPolicy: Local
+  ipFamily: IPv4
+  selector:
+    app: snapserver
+  ports:
+  - name: http 
+    port: 1780
+    targetPort: 1780
+    protocol: TCP
+  - name: out
+    port: 1704
+    targetPort: 1704
+    protocol: TCP
+  - name: in
+    port: 1705
+    targetPort: 1705
+    protocol: TCP
+  - name: stream
+    port: 4953
+    targetPort: 4953
+    protocol: TCP

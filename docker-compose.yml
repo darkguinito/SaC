@@ -1,0 +1,36 @@
+version: "3.9"
+
+services:
+  deploy-mopidy:
+    image: bitnami/kubectl
+    command: apply -f /manifests/
+    volumes:
+      - ./manifests/mopidy:/manifests/
+      - ../creds/kube/:/.kube/
+
+  undeploy-mopidy:
+    image: bitnami/kubectl
+    command: delete -f /manifests/
+    volumes:
+      - ./manifests/mopidy:/manifests/
+      - ../creds/kube/:/.kube/
+
+  deploy-snap:
+    image: bitnami/kubectl
+    command: apply -f /manifests/
+    volumes:
+      - ./manifests/snapserver:/manifests/
+      - ../creds/kube/:/.kube/
+
+  undeploy-snap:
+    image: bitnami/kubectl
+    command: delete -f /manifests/
+    volumes:
+      - ./manifests/snapserver:/manifests/
+      - ../creds/kube/:/.kube/
+
+  pods:
+    image: bitnami/kubectl
+    command: get pods -n music
+    volumes:
+      - ../creds/kube/:/.kube/

@@ -1,0 +1,30 @@
+#kind: PersistentVolumeClaim
+#apiVersion: v1
+#metadata:
+#  name: local-claim
+#  namespace: music
+#spec:
+#  accessModes:
+#  - ReadWriteMany
+#  storageClassName: local-storage
+#  resources:
+#    requests:
+#      storage: 500Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: music-pvc
+  namespace: music
+  labels:
+    app: mopidy
+    component: mopidy
+    tier: storage
+spec:
+  accessModes:
+    - ReadOnlyMany
+  volumeMode: Filesystem
+  storageClassName: ""
+  resources:
+    requests:
+      storage: 1Gi

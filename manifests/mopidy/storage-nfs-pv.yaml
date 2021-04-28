@@ -1,0 +1,37 @@
+# apiVersion: v1
+# kind: PersistentVolume
+# metadata:
+#   name: local-pv
+#   namespace: music
+# spec:
+#   capacity:
+#     storage: 500Gi
+#   accessModes:
+#   - ReadWriteMany
+#   persistentVolumeReclaimPolicy: Retain
+#   storageClassName: local-storage
+#   local:
+#     path: /media/music
+#   nodeAffinity:
+#     required:
+#       nodeSelectorTerms:
+#       - matchExpressions:
+#         - key: hdd
+#           operator: In
+#           values:
+#           - enabled
+
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: music-pv
+spec:
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadOnlyMany
+  nfs:
+    server: 192.168.0.40
+    path: /media/music/music/Genesis/Duke
+  storageClassName: ""

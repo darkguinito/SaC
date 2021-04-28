@@ -1,0 +1,53 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: mopidy
+  name: mopidy
+  namespace: music
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mopidy
+  template:
+    metadata:
+      labels:
+        app: mopidy
+    spec:
+      volumes:
+        - name: musicvol
+          persistentVolumeClaim:
+            claimName: music-pvc
+      containers:
+        - name: mopidy
+          image: darkinito/mopidy:latest
+          ports:
+          - containerPort: 6680
+            protocol: TCP
+          livenessProbe:
+            httpGet:
+              scheme: HTTP
+              path: /
+              port: 6680
+            initialDelaySeconds: 60
+            timeoutSeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /
+              scheme: HTTP
+              port: 6680
+            initialDelaySeconds: 20
+            timeoutSeconds: 30
+          resources:
+            limits:
+              cpu: "500m"
+              memory: "400Mi"
+            requests:
+              cpu: "100m"
+              memory: "100Mi"
+          imagePullPolicy: Always
+          volumeMounts:
+            - mountPath: "/mnt/music"
+              name: musicvol
