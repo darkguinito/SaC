@@ -33,5 +33,5 @@ spec:
     - ReadOnlyMany
   nfs:
     server: 192.168.0.40
-    path: /media/music/music/Genesis/Duke
+    path: /media/music/music
   storageClassName: ""

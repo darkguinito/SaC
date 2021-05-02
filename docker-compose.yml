@@ -5,28 +5,42 @@ services:
     image: bitnami/kubectl
     command: apply -f /manifests/
     volumes:
-      - ./manifests/mopidy:/manifests/
+      - ./mopidy:/manifests/
       - ../creds/kube/:/.kube/
 
   undeploy-mopidy:
     image: bitnami/kubectl
     command: delete -f /manifests/
     volumes:
-      - ./manifests/mopidy:/manifests/
+      - ./mopidy:/manifests/
       - ../creds/kube/:/.kube/
 
   deploy-snap:
     image: bitnami/kubectl
     command: apply -f /manifests/
     volumes:
-      - ./manifests/snapserver:/manifests/
+      - ./snapserver:/manifests/
       - ../creds/kube/:/.kube/
 
   undeploy-snap:
     image: bitnami/kubectl
     command: delete -f /manifests/
     volumes:
-      - ./manifests/snapserver:/manifests/
+      - ./snapserver:/manifests/
+      - ../creds/kube/:/.kube/
+
+  deploy-fast:
+    image: bitnami/kubectl
+    command: apply -f /manifests/
+    volumes:
+      - ./fast:/manifests/
+      - ../creds/kube/:/.kube/
+
+  undeploy-fast:
+    image: bitnami/kubectl
+    command: delete -f /manifests/
+    volumes:
+      - ./fast:/manifests/
       - ../creds/kube/:/.kube/
 
   pods:

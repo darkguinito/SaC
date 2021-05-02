@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: db
+  name: db
+  namespace: fast
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: db
+  template:
+    metadata:
+      labels:
+        app: db
+    spec:
+      volumes:
+        - name: postgredb
+          persistentVolumeClaim:
+            claimName: db-pvc
+      containers:
+        - name: db
+          image: postgres:12          
+          imagePullPolicy: IfNotPresent
+          ports:
+          - containerPort: 5432         
+          envFrom:
+          - configMapRef:
+              name: fast-config
+          volumeMounts:
+          - mountPath: /var/lib/postgresql/data/pgdata
+            name: postgredb
+

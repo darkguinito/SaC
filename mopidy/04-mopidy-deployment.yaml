@@ -22,7 +22,7 @@ spec:
             claimName: music-pvc
       containers:
         - name: mopidy
-          image: darkinito/mopidy:latest
+          image: darkinito/mopidy:v0.0.1
           ports:
           - containerPort: 6680
             protocol: TCP

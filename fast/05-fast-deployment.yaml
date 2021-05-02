@@ -1,0 +1,57 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: fast
+  name: fast
+  namespace: fast
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: fast
+  template:
+    metadata:
+      labels:
+        app: fast
+    spec:
+      containers:
+        - name: fast
+          image: docker-registry.local/fast:test
+          ports:
+          - containerPort: 80
+            protocol: TCP
+          env:
+          - name: SERVER_NAME
+            valueFrom:
+              configMapKeyRef:
+                name: fast-config
+                key: SERVER_NAME
+          - name: SERVER_HOST
+            valueFrom:
+              configMapKeyRef:
+                name: fast-config
+                key: SERVER_HOST      
+          livenessProbe:
+            httpGet:
+              scheme: HTTP
+              path: /
+              port: 80
+            initialDelaySeconds: 60
+            timeoutSeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /
+              scheme: HTTP
+              port: 80
+            initialDelaySeconds: 20
+            timeoutSeconds: 30
+          resources:
+            limits:
+              cpu: "500m"
+              memory: "400Mi"
+            requests:
+              cpu: "100m"
+              memory: "100Mi"
+          imagePullPolicy: Always

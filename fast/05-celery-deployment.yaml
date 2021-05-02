@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: celeryworker
+  name: celeryworker
+  namespace: fast
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: celeryworker
+  template:
+    metadata:
+      labels:
+        app: celeryworker
+    spec:
+      volumes:
+        - name: download
+          persistentVolumeClaim:
+            claimName: fast-pvc
+      containers:
+      - name: celeryworker
+        image: docker-registry.local/celeryworker:test    
+        imagePullPolicy: "IfNotPresent"
+        envFrom:
+        - configMapRef:
+            name: fast-config
+        volumeMounts:
+        - mountPath: /downloads
+          name: download

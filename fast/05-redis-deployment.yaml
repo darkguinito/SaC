@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: redis
+  name: redis
+  namespace: fast
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redis
+  template:
+    metadata:
+      labels:
+        app: redis
+    spec:
+      volumes:
+        - name: data
+          emptyDir: {}
+        - name: config
+          configMap:
+            name: example-redis-config
+            items:
+            - key: redis-config
+              path: redis.conf
+      containers:
+      - name: redis
+        image: redis:5.0.4
+        imagePullPolicy: "IfNotPresent"
+        command:
+        - redis-server
+        - "/redis-master/redis.conf"
+        ports:
+        - containerPort: 6379          
+        envFrom:
+        - configMapRef:
+            name: redis-config
+
+        resources:
+          limits:
+            cpu: "0.1"
+        volumeMounts:
+        - mountPath: /redis-master-data
+          name: data
+        - mountPath: /redis-master
+          name: config
