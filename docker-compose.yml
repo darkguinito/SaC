@@ -1,50 +1,16 @@
 version: "3.9"
 
 services:
-  deploy-mopidy:
+  kubectl:
     image: bitnami/kubectl
-    command: apply -f /manifests/
+    working_dir: /manifests
     volumes:
-      - ./mopidy:/manifests/
-      - ../creds/kube/:/.kube/
+      - ../creds/kube/:/.kube/:ro
+      - .:/manifests
 
-  undeploy-mopidy:
-    image: bitnami/kubectl
-    command: delete -f /manifests/
+  kustomize:
+    image: traherom/kustomize-docker
+    command: kubectl get pods --all-namespaces
     volumes:
-      - ./mopidy:/manifests/
-      - ../creds/kube/:/.kube/
+      - ../creds/kube/config:/root/.kube/config:ro
 
-  deploy-snap:
-    image: bitnami/kubectl
-    command: apply -f /manifests/
-    volumes:
-      - ./snapserver:/manifests/
-      - ../creds/kube/:/.kube/
-
-  undeploy-snap:
-    image: bitnami/kubectl
-    command: delete -f /manifests/
-    volumes:
-      - ./snapserver:/manifests/
-      - ../creds/kube/:/.kube/
-
-  deploy-fast:
-    image: bitnami/kubectl
-    command: apply -f /manifests/
-    volumes:
-      - ./fast:/manifests/
-      - ../creds/kube/:/.kube/
-
-  undeploy-fast:
-    image: bitnami/kubectl
-    command: delete -f /manifests/
-    volumes:
-      - ./fast:/manifests/
-      - ../creds/kube/:/.kube/
-
-  pods:
-    image: bitnami/kubectl
-    command: get pods -n music
-    volumes:
-      - ../creds/kube/:/.kube/
