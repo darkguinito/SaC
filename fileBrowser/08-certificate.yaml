@@ -1,0 +1,14 @@
+---
+apiVersion: cert-manager.io/v1alpha2
+kind: Certificate
+metadata:
+  name: selfsigned-crt
+  namespace: browser-ns
+spec:
+  secretName: tls-secret
+  issuerRef:
+    kind: Issuer
+    name: selfsigned
+  commonName: "browser.home"
+  dnsNames:
+  - "browser.home"

@@ -1,0 +1,18 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: browser-ingress
+  namespace: browser-ns
+spec:
+  rules:
+  - host: browser.home
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: browser-service
+          servicePort: http
+  tls:
+  - hosts:
+    - browser.home
+    secretName: tls-secret

@@ -1,0 +1,41 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: browser-pod
+  namespace: browser-ns
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: browser-pod
+  template:
+    metadata:
+      labels:
+        app: browser-pod
+    spec:
+      volumes:
+      - name: config-volume
+        configMap:
+          name: browser-config
+          items:
+          - key: browser_json
+            path: .filebrowser.json
+      - name: data
+        persistentVolumeClaim:
+          claimName: browser-pvc
+      - name: db
+        emptyDir: {}
+      containers:
+      - name: browser-pod
+        image: filebrowser/filebrowser:v2
+        ports:
+        - containerPort: 80
+          protocol: TCP
+        imagePullPolicy: Always
+        volumeMounts:
+        - name: data
+          mountPath: /srv
+        - name: db
+          mountPath: /db/database.db
+

@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: browser-pvc
+  namespace: browser-ns
+spec:
+  accessModes:
+    - ReadOnlyMany
+  volumeMode: Filesystem
+  storageClassName: ""
+  resources:
+    requests:
+      storage: 100Gi
+---
