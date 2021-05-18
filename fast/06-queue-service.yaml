@@ -20,4 +20,4 @@ spec:
 #     targetPort: 5672
 #     nodePort: 30672
   selector:
-    app: rabbitmq
+    app: queue-app

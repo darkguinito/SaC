@@ -2,31 +2,29 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  labels:
-    app: fast
-  name: fast
+  name: scratch
   namespace: fast
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: fast
+      app: scratch
   template:
     metadata:
       labels:
-        app: fast
+        app: scratch
     spec:
       containers:
-      - name: fast
-        image: docker-registry.home/fast:test
-        command:
-        - /start-reload.sh
+      - name: scratch
+        image: docker-registry.home/scratch:test
+        command: ["webpack" ]
+        args: ["serve", "--host", "0.0.0.0"]
         ports:
-        - containerPort: 80
-          protocol: TCP
+        - containerPort: 8080
+          protocol: TCP 
         envFrom:
         - configMapRef:
-            name: fast-config
+            name: scratch-config
 #        livenessProbe:
 #          httpGet:
 #            scheme: HTTP

@@ -1,0 +1,64 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pgadmin-pods
+  namespace: fast
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pgadmin-pods
+  template:
+    metadata:
+      labels:
+        app: pgadmin-pods
+    spec:
+      volumes:
+      - name: pgadmin-data
+        emptyDir: {}
+
+      securityContext:
+        runAsUser: 5050
+        runAsGroup: 5050
+        fsGroup: 5050
+
+      containers:
+      - name: pgadmin-pods
+        image: dpage/pgadmin4:2021-04-19-1
+        ports:
+        - name: http
+          containerPort: 80
+          protocol: TCP 
+        livenessProbe:
+          httpGet:
+            path: /
+            port: http
+          initialDelaySeconds: 60
+          periodSeconds: 30
+          timeoutSeconds: 10
+
+        readinessProbe:
+#          httpGet:
+#            scheme: HTTP
+#            path: /
+#            port: 80
+#          initialDelaySeconds: 60
+#          timeoutSeconds: 30
+#        readinessProbe:
+#          httpGet:
+#            path: /
+#            scheme: HTTP
+#            port: 80
+#          initialDelaySeconds: 20
+#          timeoutSeconds: 30
+        env:
+        - name: PGADMIN_DEFAULT_EMAIL
+          value: user@domain.com
+        - name: PGADMIN_DEFAULT_PASSWORD
+          value: SuperSecret
+
+        imagePullPolicy: Always
+        volumeMounts:
+        - name: pgadmin-data
+          mountPath: /var/lib/pgadmin

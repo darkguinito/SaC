@@ -5,14 +5,34 @@ metadata:
   namespace: fast
 spec:
   rules:
-  - host: fast.local
+  - host: scratch.home
     http:
       paths:
       - path: /
         backend:
+          serviceName: scratch-service
+          servicePort: http-scratch
+      - path: /api
+        backend:
           serviceName: fast
           servicePort: http
+      - path: /docs
+        backend:
+          serviceName: fast
+          servicePort: http
+      - path: /openapi.json
+        backend:
+          serviceName: fast
+          servicePort: http
+  - host: pgadmin.home
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: pgadmin-service
+          servicePort: pgadmin-http
   tls:
   - hosts:
-    - fast.local
+    - scratch.home
+    - pgadmin.home
     secretName: tls-secret

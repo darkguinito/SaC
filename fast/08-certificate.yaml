@@ -9,6 +9,6 @@ spec:
   issuerRef:
     kind: Issuer
     name: selfsigned
-  commonName: "fast.local"
+  commonName: "fast.home"
   dnsNames:
-  - "fast.local"
+  - "fast.home"

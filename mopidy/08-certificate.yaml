@@ -9,6 +9,6 @@ spec:
   issuerRef:
     kind: Issuer
     name: selfsigned
-  commonName: "mopidy.local"
+  commonName: "mopidy.home"
   dnsNames:
-  - "mopidy.local"
+  - "mopidy.home"

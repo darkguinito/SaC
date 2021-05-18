@@ -2,25 +2,25 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: redis
-  name: redis
+    app: redis-app
+  name: redis-app
   namespace: fast
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: redis
+      app: redis-app
   template:
     metadata:
       labels:
-        app: redis
+        app: redis-app
     spec:
       volumes:
         - name: data
           emptyDir: {}
         - name: config
           configMap:
-            name: example-redis-config
+            name: redis-config
             items:
             - key: redis-config
               path: redis.conf

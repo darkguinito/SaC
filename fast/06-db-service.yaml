@@ -6,8 +6,28 @@ metadata:
     app: db
   namespace: fast
 spec:
-  type: NodePort
   ports:
-  - port: 5432
+  - name: db-tcp
+    protocol: TCP
+    port: 5432
+    targetPort: 5432
   selector:
     app: db
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: pgadmin-service
+  namespace: fast
+spec:
+  ports:
+#    - name: pgadmin-https
+#      protocol: TCP
+#      port: 443
+#      targetPort: 443
+  - name: pgadmin-http
+    protocol: TCP
+    port: 80
+    targetPort: 80
+  selector:
+    app: pgadmin-pods

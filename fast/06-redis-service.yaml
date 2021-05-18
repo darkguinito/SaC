@@ -1,0 +1,14 @@
+kind: Service
+apiVersion: v1
+metadata:
+  namespace: fast
+  name: redis
+  labels:
+    app: redis
+spec:
+  ports:
+   - name: redis-port
+     protocol: TCP
+     port: 6379
+  selector:
+    app: redis-app

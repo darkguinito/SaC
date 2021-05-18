@@ -2,7 +2,7 @@ apiVersion: apps/v1
 # See the Prerequisites section of https://www.rabbitmq.com/cluster-formation.html#peer-discovery-k8s.
 kind: StatefulSet
 metadata:
-  name: queue
+  name: queue-app
   namespace: fast
 spec:
   serviceName: queue
@@ -11,11 +11,11 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: queue
+      app: queue-app
   template:
     metadata:
       labels:
-        app: queue
+        app: queue-app
     spec:
       serviceAccountName: rabbitmq
       terminationGracePeriodSeconds: 10
@@ -74,7 +74,7 @@ spec:
             value: "true"
           # See a note on cluster_formation.k8s.address_type in the config file section
           - name: K8S_SERVICE_NAME
-            value: rabbitmq
+            value: queue
           - name: RABBITMQ_NODENAME
             value: rabbit@$(MY_POD_NAME).$(K8S_SERVICE_NAME).$(MY_POD_NAMESPACE).svc.cluster.local
           - name: K8S_HOSTNAME_SUFFIX

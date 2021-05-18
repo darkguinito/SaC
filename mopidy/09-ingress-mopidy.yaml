@@ -7,9 +7,11 @@ metadata:
   annotations:
     #    nginx.ingress.kubernetes.io/rewrite-target: /
     nginx.ingress.kubernetes.io/app-root: /muse/
+    # add an annotation indicating the issuer to use.
+    cert-manager.io/issuer: selfsigned-crt
 spec:
   rules:
-  - host: mopidy.local
+  - host: mopidy.home
     http:
       paths:
       - path: /
@@ -18,5 +20,5 @@ spec:
           servicePort: http
   tls:
   - hosts:
-    - mopidy.local
+    - mopidy.home
     secretName: tls-secret

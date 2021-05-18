@@ -16,38 +16,81 @@ spec:
       labels:
         app: mopidy
     spec:
+
+      hostAliases:
+      - ip: "192.168.0.113"
+        hostnames:
+        - "snapserver.home"
+
       volumes:
-        - name: musicvol
-          persistentVolumeClaim:
-            claimName: music-pvc
+      - name: musicvol
+        persistentVolumeClaim:
+          claimName: music-pvc
+
       containers:
-        - name: mopidy
-          image: darkinito/mopidy:v0.0.1
-          ports:
-          - containerPort: 6680
-            protocol: TCP
-          livenessProbe:
-            httpGet:
-              scheme: HTTP
-              path: /
-              port: 6680
-            initialDelaySeconds: 60
-            timeoutSeconds: 30
-          readinessProbe:
-            httpGet:
-              path: /
-              scheme: HTTP
-              port: 6680
-            initialDelaySeconds: 20
-            timeoutSeconds: 30
-          resources:
-            limits:
-              cpu: "500m"
-              memory: "400Mi"
-            requests:
-              cpu: "100m"
-              memory: "100Mi"
-          imagePullPolicy: Always
-          volumeMounts:
-            - mountPath: "/mnt/music"
-              name: musicvol
+      - name: mopidy
+        #image: darkinito/mopidy:test
+        image: docker-registry.home/darkinito/mopidy:latest
+        ports:
+        - containerPort: 6680
+          protocol: TCP
+
+        env:
+        - name: SNAPSERVER_HOST
+          value: "snap"
+
+        - name: SNAPSERVER_PORT
+          value: "4953"
+
+        - name: SNAPCAST_HOST
+          value: "snapserver.home"
+
+        - name: SNAPCAST_PORT
+          value: "1780"
+
+        - name: SNAPSERVER_SSL
+          value: "false"
+
+        - name: VOLUME_PERCENTAGE
+          value: "50"
+
+        - name: DEFAULT_ROOT_PATH
+          value: "muse"
+
+        - name: MEDIA_DIRS
+          value: "/mnt/music"
+
+        - name: MOPIDY_HOST
+          value: "localhost"
+
+        - name: MOPIDY_PORT
+          value: "1780"
+
+        - name: MOPIDY_SSL
+          value: "false"
+
+        livenessProbe:
+          httpGet:
+            scheme: HTTP
+            path: /
+            port: 6680
+          initialDelaySeconds: 60
+          timeoutSeconds: 30
+        readinessProbe:
+          httpGet:
+            path: /
+            scheme: HTTP
+            port: 6680
+          initialDelaySeconds: 20
+          timeoutSeconds: 30
+        imagePullPolicy: Always
+        volumeMounts:
+        - mountPath: "/mnt/music"
+          name: musicvol
+#        resources:
+#          limits:
+#            cpu: "500m"
+#            memory: "400Mi"
+#          requests:
+#            cpu: "100m"
+#            memory: "100Mi"

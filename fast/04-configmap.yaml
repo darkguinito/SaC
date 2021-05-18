@@ -4,11 +4,13 @@ metadata:
   name: fast-config
   namespace: fast
 data:
-  SERVER_NAME: 'local'
-  SERVER_HOST: 'fast.local'
+  SERVER_NAME: 'fast'
+  SERVER_HOST: 'fast.home'
   POSTGRES_DB: 'youtubedl_db'
   POSTGRES_USER: 'youtubedler'
   POSTGRES_PASSWORD: 'youtubedler'
   POSTGRES_HOST: 'db'
   POSTGRES_PORT: '5432'
   LANG: 'en_US.utf8'
+  PGDATA: /var/lib/postgresql/data/pgdata
+  DATABASE: 'postgresql'

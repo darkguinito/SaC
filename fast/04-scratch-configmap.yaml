@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: scratch-config
+  namespace: fast
+data:
+  NODE_ENV: 'dev'
+  API_URL: ''
+  FRONT_URL: 'scratch.home'
+  production: 'true'

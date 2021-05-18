@@ -16,19 +16,19 @@ spec:
         app: db
     spec:
       volumes:
-        - name: postgredb
-          persistentVolumeClaim:
-            claimName: db-pvc
+      - name: postgredb
+        persistentVolumeClaim:
+          claimName: db-pvc
       containers:
-        - name: db
-          image: postgres:12          
-          imagePullPolicy: IfNotPresent
-          ports:
-          - containerPort: 5432         
-          envFrom:
-          - configMapRef:
-              name: fast-config
-          volumeMounts:
-          - mountPath: /var/lib/postgresql/data/pgdata
-            name: postgredb
+      - name: db
+        image: postgres:12
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 5432
+        envFrom:
+        - configMapRef:
+            name: fast-config
+        volumeMounts:
+        - mountPath: /var/lib/postgresql/data/pgdata
+          name: postgredb
 

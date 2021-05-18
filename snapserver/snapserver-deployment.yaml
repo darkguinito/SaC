@@ -16,28 +16,44 @@ spec:
         app: snapserver
     spec:
       containers:
-        - env: []
-          image: darkinito/snapserver:latest
-          name: snapserver
-          ports:
-            - containerPort: 1705
-            - containerPort: 1704
-            - containerPort: 1780
-            - containerPort: 4953
-              #          readinessProbe:
-              #            tcpSocket:
-              #              port: 4953 
-              #            initialDelaySeconds: 5
-              #            periodSeconds: 10
-              #          livenessProbe:
-              #            tcpSocket:
-              #              port: 4953
-              #            initialDelaySeconds: 5
-              #            periodSeconds: 10
-          resources:
-            limits:
-              cpu: 200m
-              memory: 200Mi
-            requests:
-              cpu: 100m
-              memory: 100Mi
+      - name: snapserver
+        image: docker-registry.home/darkinito/snapserver:latest
+        #image: darkinito/snapserver:latest
+        ports:
+        - containerPort: 1705
+        - containerPort: 1704
+        - containerPort: 1780
+        - containerPort: 4953
+
+        env:
+        - name: TCP_BIND_ADDRESS
+          value: "0.0.0.0"
+        - name: TCP_LISTEN_PORT
+          value: "1705"
+        - name: STREAM_BIND_ADDRESS
+          value: "0.0.0.0"
+        - name: STREAM_LISTEN_PORT
+          value: "1704"
+        - name: STREAM_NAME
+          value: "mopidy_tcp"
+        - name: STREAM_PORT
+          value: "4953"
+
+        resources:
+          limits:
+            cpu: 200m
+            memory: 200Mi
+          requests:
+            cpu: 100m
+            memory: 100Mi
+
+#        readinessProbe:
+#          tcpSocket:
+#            port: 4953
+#          initialDelaySeconds: 5
+#          periodSeconds: 10
+#        livenessProbe:
+#          tcpSocket:
+#            port: 4953
+#          initialDelaySeconds: 5
+#          periodSeconds: 10

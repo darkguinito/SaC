@@ -21,8 +21,8 @@ spec:
             claimName: fast-pvc
       containers:
       - name: celeryworker
-        image: docker-registry.local/celeryworker:test    
-        imagePullPolicy: "IfNotPresent"
+        image: docker-registry.home/celeryworker:test
+        imagePullPolicy: Always
         envFrom:
         - configMapRef:
             name: fast-config
